@@ -10,25 +10,24 @@ import GalleryPreview from '../components/GalleryPreview'
 import LocationSection from '../components/LocationSection'
 import FinalCTAHome from '../components/FinalCTAHome'
 import Footer from '../components/Footer'
-import { useLocation } from 'react-router-dom'
-
+import { useLocation, useNavigate } from 'react-router-dom'
 
 
 const HomePage = () => {
    const location = useLocation();
+   const navigate = useNavigate();
 
-   useEffect(() => {
-    if (location.state?.scrollTo) {
-      const element = document.getElementById(location.state.scrollTo);
-
-      if (element) {
-        element.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      }
+useEffect(() => {
+  if (location.state?.scrollTo === "menu-section") {
+    const el = document.getElementById("menu-section");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
     }
-  }, [location]);
+
+    // 🔥 IMPORTANT: clear state after scroll
+    navigate(location.pathname, { replace: true });
+  }
+}, [location, navigate]);
 
   return (
     <div>

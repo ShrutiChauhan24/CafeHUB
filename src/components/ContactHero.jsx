@@ -163,7 +163,7 @@ const ContactHero = () => {
       <div className="absolute inset-0 z-0">
         <img 
           ref={bgImageRef}
-          src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=2000" 
+          src="https://img.freepik.com/premium-photo/simple-illustration-cozy-caf-scene_120816-413967.jpg?semt=ais_hybrid&w=740&q=80" 
           alt="Cafe Interior"
           className="w-full h-full object-cover opacity-90" 
         />

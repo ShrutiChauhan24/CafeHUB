@@ -1,12 +1,16 @@
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import {useNavigate,Link} from "react-router-dom"
+import { useCart } from '../context/CartContext';
 
 const HeroSection = () => {
   const sectionRef = useRef(null);
   const bgRef = useRef(null);
   const floatingRef = useRef(null);
   const navigate = useNavigate();
+  const {setIsCartOpen,cartItems } = useCart();
+ 
+
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -51,6 +55,7 @@ const HeroSection = () => {
     return () => ctx.revert();
   }, []);
 
+   const totalItems = cartItems.reduce((acc, item) => acc + item.qty, 0);
   return (
     <section 
       ref={sectionRef} 
@@ -90,28 +95,29 @@ const HeroSection = () => {
         {/* Paragraph: Adjusted max-width and size for medium screens */}
         <p className="animate-text text-white font-medium leading-relaxed max-w-lg md:max-w-xl lg:max-w-2xl mx-auto
                       text-base md:text-lg lg:text-xl drop-shadow-md mb-8 md:mb-10">
-          We’d love to hear from you or welcome you in person. <br className="hidden lg:block"/>
+          We’d love to hear from you or welcome you in person.<br className="hidden lg:block"/>
           Reach out or drop by for a great coffee experience.
         </p>
         
-        {/* Buttons: Carefully scaled sizing across breakpoints */}
         {/* Buttons: Fixed for mobile full-width, preserved for MD+ */}
 <div className="animate-text flex flex-col sm:flex-row gap-4 md:gap-5 lg:gap-6 w-full sm:w-auto px-4 sm:px-0">
   
   {/* Button 1: Order Online */}
   <button
-    onClick={() => navigate("/", { state: { scrollTo: "order-online" } })}
+  onClick={() => {
+  navigate("/", { state: { scrollTo: "menu-section" } });
+}}
     className="w-full sm:w-auto px-8 py-3.5 sm:px-10 sm:py-4 md:px-11 md:py-4 lg:px-14 lg:py-5 bg-[#79A206] text-white rounded-full font-black text-xs sm:text-sm md:text-base lg:text-lg uppercase tracking-widest hover:bg-[#6a8d05] transition-all transform hover:scale-105 shadow-[0_15px_40px_rgba(121,162,6,0.4)] cursor-pointer"
   >
-    Order Online
+    Order now
   </button>
 
   {/* Button 2: View Menu (Note the w-full on the Link tag too) */}
-  <Link to='/menus' className="w-full sm:w-auto">
-    <button className="w-full sm:w-auto px-8 py-3.5 sm:px-10 sm:py-4 md:px-11 md:py-4 lg:px-14 lg:py-5 bg-white/10 backdrop-blur-md border border-white/30 text-white rounded-full font-black text-xs sm:text-sm md:text-base lg:text-lg uppercase tracking-widest hover:bg-white hover:text-black transition-all transform hover:scale-105 cursor-pointer">
-      View Menu
-    </button>
-  </Link>
+ <Link to='/menus' className="w-full sm:w-auto">
+  <button className="w-full sm:w-auto px-8 py-3.5 sm:px-10 sm:py-4 md:px-11 md:py-4 lg:px-14 lg:py-5 bg-[#2a1d15]/60 backdrop-blur-md border border-[#79A206]/40 text-white rounded-full font-black text-xs sm:text-sm md:text-base lg:text-lg uppercase tracking-widest hover:bg-[#1a120b] hover:border-[#79A206] transition-all duration-300 transform hover:scale-105 cursor-pointer shadow-lg">
+    Browse Full Menu
+  </button>
+</Link>
 </div>
       </div>
 
@@ -127,12 +133,113 @@ const HeroSection = () => {
           <p className="text-[#79A206] text-[10px] md:text-xs font-bold uppercase tracking-widest mb-1">Visit Us</p>
           <p className="text-white text-xs md:text-sm">New Delhi, India</p>
         </div>
-        
-        <div className="flex flex-col items-center gap-2">
-           <span className="text-white/60 text-[10px] uppercase font-bold tracking-widest">Scroll</span>
-           <div className="w-[2px] h-8 md:h-12 bg-gradient-to-b from-[#79A206] to-transparent"></div>
-        </div>
       </div>
+
+<div
+  className="
+    absolute 
+    bottom-8    
+    right-6     
+    md:right-10 
+    lg:right-12 
+    z-50
+  "
+>
+  <button
+    onClick={() => setIsCartOpen(true)}
+    className="
+      group
+      relative 
+      flex flex-col items-center
+      cursor-pointer
+    "
+  >
+    
+    {/* Soft Glow */}
+    <span
+      className="
+        absolute inset-0 rounded-full
+        bg-[#79A206]/20 blur-xl
+        scale-110
+        opacity-70
+        transition-all duration-500
+        group-hover:scale-125
+        group-hover:opacity-100
+      "
+    />
+
+    {/* Main Button */}
+    <div
+      className="
+        relative
+        flex items-center justify-center 
+        w-15 h-15 md:w-16 md:h-16
+        bg-[#79A206]
+        border border-white/20
+        rounded-full 
+        shadow-[0_10px_30px_rgba(121,162,6,0.45)]
+        transition-all duration-300
+        group-hover:scale-110
+        group-hover:-translate-y-1
+        active:scale-95
+      "
+      style={{
+        animation: "floatCart 2.8s ease-in-out infinite"
+      }}
+    >
+      <svg
+        className="
+          h-7 w-7 text-white
+          transition-transform duration-300
+          group-hover:scale-110
+        "
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+        />
+      </svg>
+
+      {/* Badge */}
+      <span
+        className="
+          absolute -top-1 -right-1
+          h-6 w-6
+          flex items-center justify-center
+          rounded-full
+          bg-white
+          text-[#2a1d15]
+          text-[11px]
+          font-black
+          shadow-md
+        "
+      >
+        {totalItems}
+      </span>
+    </div>
+
+    {/* Label */}
+    <span
+      className="
+        mt-2
+        text-white/80
+        text-[10px]
+        font-bold
+        uppercase
+        tracking-[0.2em]
+        transition-all duration-300
+        group-hover:text-white
+      "
+    >
+      Cart
+    </span>
+  </button>
+</div>
     </section>
   );
 };

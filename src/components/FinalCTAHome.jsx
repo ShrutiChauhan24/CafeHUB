@@ -42,7 +42,7 @@ const FinalCTAHome = () => {
           <motion.div variants={fadeIn} className="relative group">
             <div className="relative z-10 rounded-[2.5rem] md:rounded-[2.5rem] lg:rounded-[3rem] overflow-hidden shadow-2xl shadow-[#1a2e05]/10">
               <img
-                src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1200"
+                src="https://img.freepik.com/premium-photo/cup-cappuccino-with-cafe-backgrounds_1268167-1507.jpg?semt=ais_hybrid&w=740&q=80"
                 alt="Cafe ambiance"
                 className="w-full h-[350px] md:h-[400px] lg:h-[500px] object-cover group-hover:scale-105 transition-transform duration-1000"
               />

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
+import { MessageCircle } from "lucide-react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,7 +26,6 @@ const Navbar = () => {
         className="max-w-7xl mx-auto"
       >
         <div className="relative flex items-center justify-between bg-white/70 backdrop-blur-xl border border-white/40 shadow-[0_8px_32px_0_rgba(0,0,0,0.05)] rounded-2xl px-3 py-3 md:px-6 lg:px-8">
-          
           {/* Logo Section */}
           <div className="shrink-0">
             <Link to="/" className="flex items-center gap-2 group">
@@ -57,26 +57,31 @@ const Navbar = () => {
 
           {/* Action Area */}
           <div className="flex items-center gap-2 md:gap-3 lg:gap-4">
-            
+            {/* Order Online - Visible when there is no hamburger (Desktop/LG+) */}
+            <button
+              onClick={() => {
+                window.open(
+                  "https://wa.me/917004106519?text=Hi%2C%20I%E2%80%99d%20like%20to%20reserve%20a%20table.%0A%0AName%3A%0APhone%3A%0ADate%3A%0ATime%3A%0ANumber%20of%20Guests%3A%0ASpecial%20Request%20(if%20any)%3A",
+                  "_blank",
+                );
+              }}
+              className="flex items-center gap-2 px-6 py-3 bg-[#89b449] text-white rounded-xl font-bold text-sm shadow-lg shadow-[#89b449]/20 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer whitespace-nowrap"
+            >
+              <span className="flex items-center gap-2">
+                <MessageCircle size={18} />
+                Book a Table
+              </span>
+            </button>
+
             {/* WhatsApp - Always visible in the main bar */}
             <motion.a
               href="https://wa.me/917004106519?text=Hi%20I%20want%20to%20order"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-4 py-2 lg:px-6 lg:py-3 bg-[#25D366]/10 text-[#075E54] rounded-xl font-bold text-[10px] sm:text-xs lg:text-sm hover:bg-[#25D366] hover:text-white transition-all duration-300 whitespace-nowrap"
+              className="hidden lg:flex items-center gap-2 px-4 py-2 lg:px-6 lg:py-3 bg-[#25D366]/10 text-[#075E54] rounded-xl font-bold text-[10px] sm:text-xs lg:text-sm hover:bg-[#25D366] hover:text-white transition-all duration-300 whitespace-nowrap"
             >
               <span>WhatsApp</span>
             </motion.a>
-
-            {/* Order Online - Visible when there is no hamburger (Desktop/LG+) */}
-            <button
-              className="hidden lg:flex items-center gap-2 px-6 py-3 bg-[#89b449] text-white rounded-xl font-bold text-sm shadow-lg shadow-[#89b449]/20 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer whitespace-nowrap"
-              onClick={() => {
-                navigate("/", { state: { scrollTo: "order-online" } });
-              }}
-            >
-              Order Online
-            </button>
 
             {/* Hamburger - Visible on everything below LG */}
             <button

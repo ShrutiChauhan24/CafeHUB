@@ -1,34 +1,66 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-
-const menuData = {
-  Pizza: [
-    { id: "pizza-1", name: "Peppy Paneer", price: "₹350", img: "https://blog.eatfit.in/wp-content/uploads/2022/10/original-1200x900.jpg" },
-    { id: "pizza-2", name: "Mexican Green Wave", price: "₹599", img: "https://www.kolkatagiftsonline.com/pic/GG09107.jpg" },
-    { id: "pizza-3", name: "Paneer Makhani", price: "₹299", img: "https://www.dominos.co.in/files/items/Paneer_Makhni.jpg" },
-    { id: "pizza-4", name: "Indi Tandoori Paneer", price: "₹399", img: "https://www.dominos.co.in/files/items/IndianTandooriPaneer.jpg" },
-    { id: "pizza-5", name: "Veg Exotica Pizza", price: "₹699", img: "https://5.imimg.com/data5/NV/GU/GLADMIN-61941595/veg-exotica-pizza.png" },
-  ],
-
-  Drinks: [
-    { id: "drink-1", name: "Orange Fresh", price: "₹199", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLkxvdJ0WcNqfHJNePJymBwshSI6hoy14poQ&s" },
-    { id: "drink-2", name: "Lemonade", price: "₹299", img: "https://i.imgur.com/VblgBXf.jpeg" },
-    { id: "drink-3", name: "Milk Shake", price: "₹450", img: "https://cdn.uengage.io/uploads/7057/image-669725-1685542615.png" },
-    { id: "drink-4", name: "Mojito", price: "₹250", img: "https://agratefulmeal.com/wp-content/uploads/2023/02/blue-mojito-curacao-cocktail-featured.jpg" },
-    { id: "drink-5", name: "Lemon-Lime Soda", price: "₹199", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCfHovD4n__vbW67QGaWpft8ZkjF8wli_L-A&s" },
-  ],
-
-  Coffee: [
-    { id: "coffee-1", name: "Espresso", price: "₹359", img: "https://www.wyseguide.com/wp-content/uploads/2025/07/Shaken-Espresso-011.jpg" },
-    { id: "coffee-2", name: "Latte", price: "₹560", img: "https://www.brighteyedbaker.com/wp-content/uploads/2024/07/Dulce-de-Leche-Latte-Recipe.jpg" },
-    { id: "coffee-3", name: "Cappuccino", price: "₹199", img: "https://www.shutterstock.com/image-photo/heart-shaped-latte-art-white-600nw-2506388167.jpg" },
-    { id: "coffee-4", name: "Raf Coffee", price: "₹299", img: "https://images.slurrp.com/webstories/wp-content/uploads/2023/03/Raf-Coffee1.jpg" },
-  ]
-};
+import { collection, doc, getDocs, query, where } from 'firebase/firestore';
+import { db } from '../firebase';
+import { toast } from 'react-toastify';
+import { useCart } from '../context/CartContext';
 
 const MenuPage = () => {
-  const [activeTab, setActiveTab] = useState("Pizza");
+const [menuData, setMenuData] = useState({});
+const [activeTab, setActiveTab] = useState("");
+const [loading, setLoading] = useState(true);
+const {setIsCartOpen,addToCart,cartItems} = useCart();
 
+
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+
+      const menuSnap = await getDocs(
+        query(
+          collection(db, "menus"),
+          where("status", "==", true),
+          where("categoryStatus", "==", true)
+        )
+      );
+
+      const groupedMenus = {};
+
+      menuSnap.forEach((doc) => {
+        const menu = doc.data();
+
+        const categoryName = menu.categoryName;
+
+        if (!groupedMenus[categoryName]) {
+          groupedMenus[categoryName] = [];
+        }
+
+        groupedMenus[categoryName].push({
+          id: doc.id,
+          ...menu,
+        });
+      });
+
+      setMenuData(groupedMenus);
+
+      const firstCategory = Object.keys(groupedMenus)[0];
+
+      if (firstCategory) {
+        setActiveTab(firstCategory);
+      }
+
+      setLoading(false);
+
+    } catch (err) {
+      console.error(err);
+      setLoading(false);
+    }
+  };
+
+  fetchData();
+}, []);
+
+const totalItems = cartItems.reduce((acc, item) => acc + item.qty, 0);
   return (
     <section className="min-h-screen bg-[#fcfdfa] py-16 md:py-24 lg:py-32 px-4 md:px-8 lg:px-6 mt-4">
       <div className="max-w-7xl mx-auto">
@@ -78,9 +110,9 @@ const MenuPage = () => {
           className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6 lg:gap-10"
         >
           <AnimatePresence mode="popLayout">
-            {menuData[activeTab].map((item, index) => (
+            {menuData[activeTab]?.map((item,index) => (
               <motion.div
-                key={item.id}
+                key={item?.id}
                 layout
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -92,33 +124,174 @@ const MenuPage = () => {
                 {/* Image Layout */}
                 <div className="w-full aspect-square rounded-[0.8rem] md:rounded-[1.2rem] lg:rounded-[1.5rem] overflow-hidden mb-3 md:mb-4 lg:mb-6 shadow-md md:shadow-lg group-hover:shadow-[#68a336]/20 transition-all duration-500">
                   <img 
-                    src={item.img} 
-                    alt={item.name} 
+                    src={item?.image} 
+                    alt={item?.name} 
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
                   />
                 </div>
                 
                 {/* Typography: Scaled for mobile, tablet (md), and desktop (lg) */}
                 <h3 className="text-[10px] md:text-lg lg:text-2xl font-black text-[#1a2e05] mb-1 md:mb-1.5 lg:mb-2 px-1 leading-tight line-clamp-2">
-                  {item.name}
+                  {item?.name}
                 </h3>
                 <p className="text-[#f18e1d] font-black text-[10px] md:text-base lg:text-xl">
-                  {item.price}
+                  ₹{item?.price}
                 </p>
 
                 {/* Button: Visible from tablet (md) upwards with adjusted sizing */}
-                <motion.button
-                  initial={{ opacity: 0 }}
-                  whileHover={{ opacity: 1 }}
-                  className="hidden md:block mt-4 lg:mt-6 px-4 py-2 lg:px-6 lg:py-2 bg-[#1a2e05] text-[#fcfdfa] text-[8px] lg:text-[10px] font-bold uppercase tracking-widest rounded-full group-hover:translate-y-0 translate-y-2 transition-all duration-300"
-                >
-                  Add to Order
-                </motion.button>
+                <div className="mt-auto pt-4 w-full flex justify-center">
+                 <motion.button
+                   whileHover={{ 
+                     scale: 1.05,
+                     boxShadow: "0 10px 20px rgba(137,180,73,0.15)" 
+                   }}
+                   whileTap={{ scale: 0.95 }}
+                   className="
+                     group/btn
+                     flex items-center justify-center gap-2
+                     w-full md:w-[85%]
+                     px-3 py-2 md:py-2.5
+                     /* Base Style: Clean & Minimal */
+                     bg-white border-[1.5px] border-[#89b449]/30 
+                     text-[#89b449] text-[10px] md:text-xs font-black tracking-widest
+                     rounded-xl md:rounded-2xl
+                     transition-all duration-300 ease-out
+                     /* Hover Style: Solid & Premium */
+                     hover:bg-[#89b449] hover:border-[#89b449] hover:text-white cursor-pointer
+                   "
+                    onClick={() =>{
+                          addToCart(item)
+                          toast.success("Added to cart");
+                         }}
+                 >
+                   <span className="relative z-10">Add</span>
+                   
+                   {/* Icon rotates slightly on hover for a modern touch */}
+                   <svg 
+                     className="w-3 h-3 md:w-4 md:h-4 stroke-[3px] transition-transform duration-300 group-hover/btn:rotate-90" 
+                     fill="none" 
+                     viewBox="0 0 24 24" 
+                     stroke="currentColor"
+                   >
+                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                   </svg>
+                 </motion.button>
+               </div>
               </motion.div>
             ))}
           </AnimatePresence>
         </motion.div>
       </div>
+
+
+      
+      {/* FLOATING CART - Positioned at Bottom Right */}
+<div
+  className="
+  fixed 
+  bottom-6 
+  right-4 
+  md:bottom-8 
+  md:right-8 
+  lg:right-12 
+  z-[999]
+  "
+>
+  <button
+    onClick={() => setIsCartOpen(true)}
+    className="
+      group
+      relative 
+      flex flex-col items-center
+      cursor-pointer
+    "
+  >
+    
+    {/* Soft Glow */}
+    <span
+      className="
+        absolute inset-0 rounded-full
+        bg-[#79A206]/20 blur-xl
+        scale-110
+        opacity-70
+        transition-all duration-500
+        group-hover:scale-125
+        group-hover:opacity-100
+      "
+    />
+
+    {/* Main Button */}
+    <div
+      className="
+        relative
+        flex items-center justify-center 
+        w-15 h-15 md:w-16 md:h-16
+        bg-[#79A206]
+        border border-white/20
+        rounded-full 
+        shadow-[0_10px_30px_rgba(121,162,6,0.45)]
+        transition-all duration-300
+        group-hover:scale-110
+        group-hover:-translate-y-1
+        active:scale-95
+      "
+      style={{
+        animation: "floatCart 2.8s ease-in-out infinite"
+      }}
+    >
+      <svg
+        className="
+          h-7 w-7 text-white
+          transition-transform duration-300
+          group-hover:scale-110
+        "
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+        />
+      </svg>
+
+      {/* Badge */}
+      <span
+        className="
+          absolute -top-1 -right-1
+          h-6 w-6
+          flex items-center justify-center
+          rounded-full
+          bg-white
+          text-[#2a1d15]
+          text-[11px]
+          font-black
+          shadow-md
+        "
+      >
+        {totalItems}
+      </span>
+    </div>
+
+    {/* Label */}
+    <span
+      className="
+        mt-2
+        text-[#79A206]
+        text-[10px]
+        font-bold
+        uppercase
+        tracking-[0.2em]
+        transition-all duration-300
+        group-hover:text-[#69881b]
+      "
+    >
+      Cart
+    </span>
+  </button>
+</div>
     </section>
   );
 };

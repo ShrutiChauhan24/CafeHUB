@@ -42,8 +42,8 @@ const OrderOnline = () => {
           transition={{ delay: 0.2, duration: 0.8 }}
           className="mt-4 text-3xl md:text-4xl lg:text-6xl font-extrabold text-[#1a2e05] leading-[1.1]"
         >
-          Craving Something? <br className="hidden md:block" />
-          Order Now
+          Also Available <br className="hidden md:block" />
+          On
         </motion.h2>
       </div>
 
