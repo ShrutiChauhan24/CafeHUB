@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, MessageCircle } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { MessageCircle } from "lucide-react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,7 +16,7 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-[100] px-4 py-6 md:px-6 lg:px-10">
+    <nav className="fixed top-0 left-0 w-full z-[100] px-2 py-4 md:px-6 md:py-6 lg:px-10">
       {/* Main Floating Container */}
       <motion.div
         initial={{ y: -100, opacity: 0 }}
@@ -25,14 +24,16 @@ const Navbar = () => {
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         className="max-w-7xl mx-auto"
       >
-        <div className="relative flex items-center justify-between bg-white/70 backdrop-blur-xl border border-white/40 shadow-[0_8px_32px_0_rgba(0,0,0,0.05)] rounded-2xl px-3 py-3 md:px-6 lg:px-8">
-          {/* Logo Section */}
+        {/* Adjusted inner padding for smaller screens (px-2 to px-8) */}
+        <div className="relative flex items-center justify-between bg-white/70 backdrop-blur-xl border border-white/40 shadow-[0_8px_32px_0_rgba(0,0,0,0.05)] rounded-2xl px-2 py-2 md:px-6 lg:px-8">
+          
+          {/* Logo Section - Added mr-auto to push actions to the right if needed */}
           <div className="shrink-0">
-            <Link to="/" className="flex items-center gap-2 group">
+            <Link to="/" className="flex items-center gap-1.5 md:gap-2 group">
               <div className="w-7 h-7 md:w-8 md:h-8 bg-[#89b449] rounded-lg flex items-center justify-center text-white font-bold italic rotate-6 group-hover:rotate-0 transition-transform">
                 C
               </div>
-              <span className="text-lg md:text-xl lg:text-2xl font-bold tracking-tighter text-[#2d2d2d]">
+              <span className="text-base md:text-xl lg:text-2xl font-bold tracking-tighter text-[#2d2d2d]">
                 CafeHUB<span className="text-[#89b449]">.</span>
               </span>
             </Link>
@@ -55,9 +56,10 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* Action Area */}
-          <div className="flex items-center gap-2 md:gap-3 lg:gap-4">
-            {/* Order Online - Visible when there is no hamburger (Desktop/LG+) */}
+          {/* Action Area - Reduced gap for mobile (gap-1.5) */}
+          <div className="flex items-center gap-1.5 md:gap-3 lg:gap-4">
+            
+            {/* Book a Table - Optimized for all screens */}
             <button
               onClick={() => {
                 window.open(
@@ -65,30 +67,28 @@ const Navbar = () => {
                   "_blank",
                 );
               }}
-              className="flex items-center gap-2 px-6 py-3 bg-[#89b449] text-white rounded-xl font-bold text-sm shadow-lg shadow-[#89b449]/20 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer whitespace-nowrap"
+              className="flex items-center gap-1.5 px-3 py-2.5 md:px-6 md:py-3 bg-[#89b449] text-white rounded-xl font-bold text-[10px] sm:text-xs md:text-sm shadow-lg shadow-[#89b449]/20 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer whitespace-nowrap"
             >
-              <span className="flex items-center gap-2">
-                <MessageCircle size={18} />
-                Book a Table
-              </span>
+              <MessageCircle size={14} className="md:w-[18px] md:h-[18px]" />
+              <span>Book a Table</span>
             </button>
 
-            {/* WhatsApp - Always visible in the main bar */}
+            {/* WhatsApp - Only visible on LG+ to keep mobile bar clean */}
             <motion.a
               href="https://wa.me/917004106519?text=Hi%20I%20want%20to%20order"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden lg:flex items-center gap-2 px-4 py-2 lg:px-6 lg:py-3 bg-[#25D366]/10 text-[#075E54] rounded-xl font-bold text-[10px] sm:text-xs lg:text-sm hover:bg-[#25D366] hover:text-white transition-all duration-300 whitespace-nowrap"
+              className="hidden lg:flex items-center gap-2 px-4 py-2 lg:px-6 lg:py-3 bg-[#25D366]/10 text-[#075E54] rounded-xl font-bold text-sm hover:bg-[#25D366] hover:text-white transition-all duration-300 whitespace-nowrap"
             >
               <span>WhatsApp</span>
             </motion.a>
 
-            {/* Hamburger - Visible on everything below LG */}
+            {/* Hamburger - Sized to prevent overflow */}
             <button
-              className="lg:hidden ml-1 p-2 text-gray-800 bg-gray-50 rounded-lg flex-shrink-0"
+              className="lg:hidden p-2 text-gray-800 bg-gray-50 rounded-lg flex-shrink-0"
               onClick={() => setIsOpen(!isOpen)}
             >
-              {isOpen ? <X size={20} /> : <Menu size={20} />}
+              {isOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
           </div>
         </div>
@@ -128,7 +128,6 @@ const Navbar = () => {
                   Actions
                 </p>
 
-                {/* Order Online Button in List (Shown here because it's hidden in main bar on mobile) */}
                 <motion.button
                   whileTap={{ scale: 0.98 }}
                   onClick={() => {
@@ -139,8 +138,6 @@ const Navbar = () => {
                 >
                   Order Online
                 </motion.button>
-
-                {/* WhatsApp is removed from here as it is always in the main bar */}
 
                 <motion.button
                   whileTap={{ scale: 0.98 }}
