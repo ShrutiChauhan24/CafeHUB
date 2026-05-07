@@ -131,12 +131,15 @@ const Navbar = () => {
                 <motion.button
                   whileTap={{ scale: 0.98 }}
                   onClick={() => {
-                    setIsOpen(false);
-                    navigate("/", { state: { scrollTo: "order-online" } });
-                  }}
+                setIsOpen(false)
+                window.open(
+                  "https://wa.me/917004106519?text=Hi%20I%20want%20to%20order",
+                  "_blank",
+                );
+              }}
                   className="w-full py-4 bg-[#89b449] text-white rounded-2xl font-bold shadow-lg text-center"
                 >
-                  Order Online
+                  Whatsapp 
                 </motion.button>
 
                 <motion.button
