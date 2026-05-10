@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../context/CartContext';
+import {toast} from "react-toastify";
 
 const CartDrawer = () => {
   const { isCartOpen, setIsCartOpen, cartItems, setCartItems} = useCart();
@@ -17,30 +18,15 @@ const CartDrawer = () => {
 
   const subtotal = cartItems.reduce((acc, item) => acc + (item.price * item.qty), 0);
 
-  const generateWhatsAppMessage = () => {
-  if (!cartItems.length) return "No items in cart";
 
-  let message = "🛒 *New Order*\n\n";
-
-  cartItems.forEach((item, index) => {
-    message += `${index + 1}. ${item.name}\n`;
-    message += `Qty: ${item.qty}\n`;
-    message += `Price: ₹${item.price}\n`;
-    message += `Total: ₹${item.price * item.qty}\n\n`;
-  });
-
-  message += `*Grand Total:* ₹${subtotal.toFixed(2)}\n`;
-  message += "\nThank you!";
-
-  return encodeURIComponent(message);
-};
-
-const sendToWhatsApp = () => {
-  const phoneNumber = "917004106519";
-  const message = generateWhatsAppMessage();
-
-  const url = `https://wa.me/${phoneNumber}?text=${message}`;
-  window.open(url, "_blank");
+const handleOrder = () => {
+  if(cartItems?.length === 0){
+    toast.error("No items in the cart!");
+    return
+  }
+  toast.success("Order placed successfully!");
+  setCartItems([]);
+  setIsCartOpen(false);
 };
 
   return (
@@ -144,12 +130,12 @@ const sendToWhatsApp = () => {
               </div>
 
               <button
-               onClick={sendToWhatsApp}
+               onClick={handleOrder}
               className="w-full cursor-pointer bg-[#1a2e05] text-[#fcfdfa] py-4 md:py-6 rounded-2xl md:rounded-3xl text-xs md:text-sm font-black uppercase tracking-[0.2em] shadow-xl shadow-[#1a2e05]/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3">
-                Order via WhatsApp
+                Confirm Order
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
               </button>
-              <p className="text-center mt-6 text-[10px] text-[#1a2e05]/30 font-medium uppercase tracking-widest">Fast ordering through WhatsApp</p>
+              <p className="text-center mt-6 text-[10px] text-[#1a2e05]/30 font-medium uppercase tracking-widest">Orders are instantly sent to the cafe for quick confirmation</p>
             </div>
           </motion.div>
         </>
