@@ -142,12 +142,13 @@ const Navbar = () => {
                   Whatsapp 
                 </motion.button>
 
-                <motion.button
+                <motion.a
                   whileTap={{ scale: 0.98 }}
                   className="w-full py-4 bg-[#2d2d2d] text-white rounded-2xl font-bold shadow-lg"
+                  href="https://www.instagram.com"
                 >
                   Check Instagram Feed
-                </motion.button>
+                </motion.a>
               </div>
             </div>
           </motion.div>
