@@ -67,8 +67,8 @@ const sendToWhatsApp = () => {
             {/* HEADER */}
             <div className="p-6 md:p-8 flex justify-between items-center border-b border-[#1a2e05]/5">
               <div>
-                <span className="text-[#68a336] font-bold tracking-[0.2em] uppercase text-[10px] block mb-1">Your Selection</span>
-                <h2 className="text-2xl md:text-3xl font-black text-[#1a2e05] tracking-tight">Ordering Cart</h2>
+                <span className="text-[#68a336] font-bold tracking-[0.2em] uppercase text-[10px] block mb-1">Review Your Items</span>
+                <h2 className="text-2xl md:text-3xl font-black text-[#1a2e05] tracking-tight">Your Order Summary</h2>
               </div>
               <button 
                 onClick={()=>setIsCartOpen(false)}
@@ -135,7 +135,7 @@ const sendToWhatsApp = () => {
             <div className="p-6 md:p-10 bg-white border-t border-[#1a2e05]/5 shadow-[0_-20px_40px_rgba(0,0,0,0.02)]">
               <div className="flex justify-between items-end mb-8">
                 <div>
-                  <p className="text-[#1a2e05]/40 font-bold uppercase tracking-widest text-[10px] mb-1">Estimated Total</p>
+                  <p className="text-[#1a2e05]/40 font-bold uppercase tracking-widest text-[10px] mb-1">Order Total</p>
                   <p className="text-3xl md:text-4xl font-black text-[#1a2e05] tracking-tighter">
                     ₹{subtotal.toFixed(2)}
                   </p>
@@ -146,10 +146,10 @@ const sendToWhatsApp = () => {
               <button
                onClick={sendToWhatsApp}
               className="w-full cursor-pointer bg-[#1a2e05] text-[#fcfdfa] py-4 md:py-6 rounded-2xl md:rounded-3xl text-xs md:text-sm font-black uppercase tracking-[0.2em] shadow-xl shadow-[#1a2e05]/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3">
-                Place Your Order
+                Order via WhatsApp
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
               </button>
-              <p className="text-center mt-6 text-[10px] text-[#1a2e05]/30 font-medium uppercase tracking-widest">Secure Checkout Powered by CafeHub</p>
+              <p className="text-center mt-6 text-[10px] text-[#1a2e05]/30 font-medium uppercase tracking-widest">Fast ordering through WhatsApp</p>
             </div>
           </motion.div>
         </>
