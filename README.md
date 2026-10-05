@@ -90,34 +90,55 @@ CafeHUB/
 └── package.json
 ```
 
-# Getting Started
-Prerequisites
-Node.js
-npm
-Firebase project configuration
-Installation
-Clone the repository:
+## Getting Started
+
+### Prerequisites
+
+- Node.js
+- npm
+- Firebase project
+- Cloudinary account
+
+### Installation
+
+1. Clone the repository:
+
+```bash
 git clone https://github.com/ShrutiChauhan24/CafeHUB.git
-Navigate to the project directory:
-cd cafeHUB
-Install dependencies:
+```
+
+2. Navigate to the project directory:
+
+```bash
+cd CafeHUB
+```
+
+3. Install dependencies:
+
+```bash
 npm install
-Configure your Firebase environment variables using the variable names expected by your application. Keep private credentials out of the repository.
-Start the development server:
+```
+
+4. Configure the required Firebase and Cloudinary settings according to your project configuration.
+
+5. Start the development server:
+
+```bash
 npm run dev
+```
 
-
-External Services
+## External Services
 
 CafeHUB uses the following services:
 
-Firebase – application data and authentication
-Cloudinary – image storage
-WhatsApp – customer order communication
-Zomato / Swiggy / EazyDiner – external ordering/platform links
-Developer
+- **Firebase** — Application data and authentication
+- **Cloudinary** — Image storage
+- **WhatsApp** — Customer order communication
+- **Zomato / Swiggy / EazyDiner** — External ordering and platform links
 
-Shruti Chauhan
+## Developer
+
+**Shruti Chauhan**  
 Self-Taught Full-Stack MERN Developer
 
 
