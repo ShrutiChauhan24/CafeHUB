@@ -59,7 +59,7 @@ The project also includes an admin interface for managing menu categories and it
 
 ### Menu
 
-![CafeHUB Menu](public/Menu.png)
+![CafeHUB Menu](public/Menus.png)
 
 ### Shopping Cart
 
