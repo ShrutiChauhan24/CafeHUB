@@ -1,16 +1,123 @@
-# React + Vite
+# CafeHUB – Cafe Website & Ordering Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+CafeHUB is a responsive cafe website built with React and Firebase. It allows customers to explore the cafe menu, add items to their cart, place orders through WhatsApp, and book a table.
 
-Currently, two official plugins are available:
+The project also includes an admin interface for managing menu categories and items.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Live Demo
 
-## React Compiler
+- **Website:** https://cafe-hub-indol.vercel.app
+- **GitHub Repository:** https://github.com/ShrutiChauhan24/CafeHUB
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Features
 
-## Expanding the ESLint configuration
+### Customer Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Browse cafe menu
+- Browse items by category
+- View product details
+- Add items to cart
+- Update cart quantities
+- Cart persistence using localStorage
+- Place orders through WhatsApp
+- Book a table
+- View customer reviews
+- Links to external food delivery platforms
+
+### Admin Features
+
+- Admin authentication
+- Manage menu categories
+- Add, edit and delete menu items
+- Upload and manage menu images
+- Manage menu content
+
+## Tech Stack
+
+### Frontend
+
+- React.js
+- JavaScript
+- Vite
+- CSS
+
+### Backend / Services
+
+- Firebase
+- Cloudinary
+
+### Other
+
+- LocalStorage
+- WhatsApp integration
+
+## Screenshots
+
+### Homepage
+
+![CafeHUB Homepage](public/Homepage.png)
+
+### Menu
+
+![CafeHUB Menu](public/Menu.png)
+
+### Shopping Cart
+
+![CafeHUB Cart](public/Cart.png)
+
+
+## Project Structure
+
+```text
+CafeHUB/
+├── public/
+├── src/
+│   ├── assets/
+│   ├── components/
+│   ├── context/
+│   ├── helper/
+│   ├── layout/
+│   ├── pages/
+│   ├── App.css
+│   ├── App.jsx
+│   ├── firebase.js
+│   └── main.jsx
+├── .gitignore
+├── README.md
+├── eslint.config.js
+├── index.html
+├── package-lock.json
+└── package.json
+```
+
+# Getting Started
+Prerequisites
+Node.js
+npm
+Firebase project configuration
+Installation
+Clone the repository:
+git clone https://github.com/ShrutiChauhan24/CafeHUB.git
+Navigate to the project directory:
+cd cafeHUB
+Install dependencies:
+npm install
+Configure your Firebase environment variables using the variable names expected by your application. Keep private credentials out of the repository.
+Start the development server:
+npm run dev
+
+
+External Services
+
+CafeHUB uses the following services:
+
+Firebase – application data and authentication
+Cloudinary – image storage
+WhatsApp – customer order communication
+Zomato / Swiggy / EazyDiner – external ordering/platform links
+Developer
+
+Shruti Chauhan
+Self-Taught Full-Stack MERN Developer
+
+
