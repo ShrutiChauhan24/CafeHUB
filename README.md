@@ -139,6 +139,6 @@ CafeHUB uses the following services:
 ## Developer
 
 **Shruti Chauhan**  
-Self-Taught Full-Stack MERN Developer
+Full-Stack MERN Developer
 
 
